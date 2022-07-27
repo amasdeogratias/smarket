@@ -26,7 +26,12 @@
    
       </ul>
       <div class="form-inline my-2 my-lg-0">
-         <a href="#"class="btn btn-warning">Login</a>
+        {% if user.is_authenticated %}
+          {{ user.username }}
+          <a href="{% url 'login' %}" class="btn btn-warning">Log Out</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn btn-warning">Login</a>
+        {% endif %}
       </div>
     </div>
   </nav>
