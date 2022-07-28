@@ -6,22 +6,28 @@ from shortuuid.django_fields import ShortUUIDField
 
 # Create your models here.
 class Category(models.Model):
-    category_name = models.CharField(max_length=200, null=True)
-    sub_category = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True)
+    sub_categories = models.ManyToManyField("self")
+    
+    @staticmethod
+    def get_all_categories():
+        return Category.objects.all()
     
     def __str__(self):
-        return self.category_name
+        return self.name
         
         
 class Product(models.Model):
     Name = models.CharField(max_length=200, null=True)
     Price = models.DecimalField(max_digits=7, decimal_places=2, null=True)
-    Code = ShortUUIDField(length=5, max_length=40,
+    Code = ShortUUIDField(
+        length=5, 
+        max_length=40,
         prefix="code_",
         alphabet="abc1234",
         )
     Unit = models.CharField(max_length=200, null=True)
-    category = models.OneToOneField(Category, null=True, blank=True, on_delete=models.CASCADE)
+    category = models.ManyToManyField(Category)
     
     
     def __str__(self): 
