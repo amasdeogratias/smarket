@@ -26,8 +26,10 @@ class Product(models.Model):
         prefix="code_",
         alphabet="abc1234",
         )
-    Unit = models.CharField(max_length=200, null=True)
+    UNITS = (("DZ", "dozen"), ("LT", "litre"), ("PC", "piece"))    
+    Unit = models.CharField(max_length=2, null=True, choices=UNITS)
     category = models.ManyToManyField(Category)
+    
     
     
     def __str__(self): 
